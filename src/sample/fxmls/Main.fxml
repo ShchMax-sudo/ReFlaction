@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Main">
+   <children>
+      <ToolBar focusTraversable="false" prefHeight="40.0" prefWidth="600.0">
+        <items>
+          <Button alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" text="⚙" textAlignment="CENTER" fx:id="settings_button" onAction="#stop_playing">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+        </items>
+      </ToolBar>
+      <ListView layoutY="41.0" prefHeight="560.0" prefWidth="600.0" stylesheets="@../css/ListView.css" />
+   </children>
+</AnchorPane>

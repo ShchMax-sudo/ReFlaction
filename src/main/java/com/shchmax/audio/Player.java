@@ -34,7 +34,7 @@ public class Player {
         audios = new ArrayList<Audio>();
         for (File file : audioList) {
             if (Audio.isAudio(file.getAbsolutePath())) {
-                audios.add(new Audio(file.getAbsolutePath(), audios.size()));
+                audios.add(new Audio(file.getAbsolutePath()));
             }
         }
     }

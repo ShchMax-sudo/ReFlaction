@@ -1,12 +1,17 @@
 package com.shchmax.app;
 
-import com.shchmax.audio.Player;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class Main {
+import javafx.application.Application;
+
+public class Main extends Application {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer in = null;
 
@@ -27,7 +32,7 @@ public class Main {
     public static void deleteDir(String path) {
         try {
             FileUtils.deleteDirectory(new File(path));
-        } catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
 
     public static void templateInitialize() {
@@ -36,30 +41,21 @@ public class Main {
         createDir("/tmp/ReFlaction/Covers");
     }
 
-    static public void main(String[] args) throws IOException, InterruptedException {
+    static public void main(String[] args) {
         templateInitialize();
-        String[] paths = new String[1];
-        paths[0] = "/Users/admin/Documents/IF/ReFlaction/src/main/java/com/shchmax/Samples";
-        Player pl = new Player(paths);
-        System.out.println("Player ready");
-        while (true) {
-            String p = nextToken();
-            switch (p) {
-                case ("play"):
-                    pl.play();
-                    break;
-                case ("stop"):
-                    pl.stop();
-                    break;
-                case ("next"):
-                    pl.next();
-                    break;
-                case ("prev"):
-                    pl.prev();
-                    break;
-                default:
-                    break;
-            }
-        }
+        Application.launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../fxml/menu.fxml"));
+        Scene scene;
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("ReFlaction");
+
+        stage.show();
     }
 }

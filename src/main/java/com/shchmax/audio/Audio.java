@@ -14,11 +14,14 @@ public class Audio {
     private String artist;
     private String album;
 
-    public Audio(String path, int imageNum) throws IOException, InterruptedException {
+    private static int covernum = 0;
+
+    public Audio(String path) throws IOException, InterruptedException {
         audioURL = path;
-        Process imageCreating = Runtime.getRuntime().exec("ffmpeg -i " + path + " /tmp/ReFlaction/Covers/" + imageNum + ".png");
+        Process imageCreating = Runtime.getRuntime().exec("ffmpeg -i " + path + " /tmp/ReFlaction/Covers/" + covernum + ".png");
         imageCreating.waitFor();
-        File coverFile = new File("/tmp/ReFlaction/Covers/" + imageNum + ".png");
+        File coverFile = new File("/tmp/ReFlaction/Covers/" + covernum + ".png");
+        covernum++;
         if(coverFile.exists()) {
             coverURL = coverFile.getAbsolutePath();
         } else {

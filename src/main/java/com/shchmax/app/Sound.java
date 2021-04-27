@@ -41,8 +41,8 @@ public class Sound extends ListCell<Audio> {
 
             }
 
-            label1.setText("Shit");
-            label2.setText("Sheet");
+            label1.setText(audio.getName());
+            label2.setText(audio.getArtist());
             setText(null);
             setGraphic(gridPane);
         }

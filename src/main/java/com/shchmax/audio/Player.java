@@ -1,6 +1,13 @@
 package com.shchmax.audio;
 
-import com.shchmax.audio.Audio;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,9 +47,10 @@ public class Player {
     }
 
     public void absolutelyPlay() throws IOException {
-        audioProcess = Runtime.getRuntime().exec("ffplay -nodisp -autoexit " + audios.get(now).path());
+        ProcessBuilder builder = new ProcessBuilder("ffplay", "-nodisp", "-autoexit", audios.get(now).getPath());
+        audioProcess = builder.start();
         isPlaying = true;
-        System.out.println("Now playing " + audios.get(now).path());
+        notifier("ReFlaction", "Now playing " + audios.get(now).getName());
         while (isPlaying && audioProcess.isAlive()) {}
         if (isPlaying) {
             stop();
@@ -78,5 +86,33 @@ public class Player {
         stop();
         now = (now + audios.size() - 1) % audios.size();
         play();
+    }
+
+    public void update(ObservableList<Audio> a) {
+        audios.clear();
+        for (Audio p : a) {
+            audios.add(p);
+        }
+    }
+
+    public ArrayList<Audio> getList() {
+        return this.audios;
+    }
+
+    private static void notifier(String pTitle, String pMessage) {
+        Platform.runLater(() -> {
+                    Stage owner = new Stage(StageStyle.TRANSPARENT);
+                    StackPane root = new StackPane();
+                    root.setStyle("-fx-background-color: TRANSPARENT");
+                    Scene scene = new Scene(root, 1, 1);
+                    scene.setFill(Color.TRANSPARENT);
+                    owner.setScene(scene);
+                    owner.setWidth(1);
+                    owner.setHeight(1);
+                    owner.toBack();
+                    owner.show();
+                    Notifications.create().title(pTitle).text(pMessage).showInformation();
+                }
+        );
     }
 }

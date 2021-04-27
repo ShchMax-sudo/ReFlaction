@@ -12,8 +12,8 @@ import java.util.StringTokenizer;
 import javafx.application.Application;
 
 public class Main extends Application {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer in = null;
+    static private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static private StringTokenizer in = null;
 
     public static String nextToken() throws IOException {
         while (in == null || !in.hasMoreTokens()) {

@@ -15,6 +15,11 @@ import java.util.*;
 
 import com.shchmax.audio.Audio;
 
+/**
+ * Main menu controller class
+ *
+ * @author ShchMax
+ */
 public class Menu implements Initializable {
     @FXML
     private SplitPane horSplit;
@@ -41,18 +46,30 @@ public class Menu implements Initializable {
 
     private ObservableList<Audio> audioObservableList;
 
-    private Player player;
+    private final Player player;
 
+    /**
+     * Constructor, which creates player (crutch)
+     *
+     * @throws IOException It can be thrown, when one of paths to player is incorrect
+     * @throws InterruptedException It can be thrown, when java can't wait for end of ffprobe
+     */
     public Menu() throws IOException, InterruptedException {
             audioObservableList = FXCollections.observableArrayList();
 
-            String[] paths = {"/Users/admin/Documents/IF/ReFlaction/src/main/resources/com/shchmax/Samples/"};
+            String[] paths = {"/Users/admin/Documents/IF/ReFlaction/src/main/resources/com/shchmax/Samples/Undertale"};
 
             player = new Player(paths);
 
             audioObservableList.addAll(player.getList());
     }
 
+    /**
+     * Initializer
+     *
+     * @param location I don't know
+     * @param resources I don't know
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         leftPane.maxWidthProperty().bind(horSplit.widthProperty().multiply(horSplit.getDividerPositions()[0]));
@@ -67,18 +84,38 @@ public class Menu implements Initializable {
         selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    /**
+     * Play button method
+     *
+     * @param e ActionEvent
+     */
     public void play(ActionEvent e) {
         player.play();
     }
 
+    /**
+     * Stop button method
+     *
+     * @param e ActionEvent
+     */
     public void stop(ActionEvent e) {
         player.stop();
     }
 
+    /**
+     * Next button method
+     *
+     * @param e ActionEvent
+     */
     public void next(ActionEvent e) {
         player.next();
     }
 
+    /**
+     * Prev button method
+     *
+     * @param e ActionEvent
+     */
     public void prev(ActionEvent e) {
         player.prev();
     }

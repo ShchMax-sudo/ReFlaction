@@ -9,6 +9,11 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
+/**
+ * Class of one audio row
+ *
+ * @author ShchMax
+ */
 public class Sound extends ListCell<Audio> {
     @FXML
     private Label label1;
@@ -19,10 +24,19 @@ public class Sound extends ListCell<Audio> {
 
     private FXMLLoader mLLoader;
 
+    /**
+     * Constructor, which deletes padding
+     */
     public Sound() {
         setStyle("-fx-padding: 0px");
     }
 
+    /**
+     * Method, which creates fxml of row
+     *
+     * @param audio Audio from this row
+     * @param empty Is this row empty
+     */
     @Override
     protected void updateItem(Audio audio, boolean empty) {
         super.updateItem(audio, empty);

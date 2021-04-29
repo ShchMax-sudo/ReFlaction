@@ -1,14 +1,16 @@
 package com.shchmax.audio;
 
 import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
 import java.io.*;
-import java.util.Locale;
-import java.util.Map;
 import java.util.StringTokenizer;
 
+/**
+ * Audio class
+ *
+ * @author ShchMax
+ */
 public class Audio {
     private final String audioURL;
     private final String coverURL;
@@ -20,6 +22,13 @@ public class Audio {
 
     private static int covernum = 0;
 
+    /**
+     * Constructor, which creates new Audio
+     *
+     * @param path Path to audio
+     * @throws IOException Can be thrown, when path is incorrect
+     * @throws InterruptedException It can be thrown, when java can't wait for end of ffprobe
+     */
     public Audio(String path) throws IOException, InterruptedException {
         audioURL = path;
         Process imageCreating = Runtime.getRuntime().exec("ffmpeg -i " + path + " /tmp/ReFlaction/Covers/" + covernum + ".png");
@@ -32,26 +41,36 @@ public class Audio {
             coverURL = null;
         }
         probe = new FFprobe("/usr/local/bin/ffprobe").probe(audioURL);
-        for (String tag : probe.format.tags.keySet()) {
-            switch (tag.toLowerCase()) {
-                case ("title"):
-                    name = probe.format.tags.get(tag);
-                    break;
-                case ("album"):
-                    album = probe.format.tags.get(tag);
-                    break;
-                case ("artist"):
-                    artist = probe.format.tags.get(tag);
-                    break;
-                case ("genre"):
-                    genre = probe.format.tags.get(tag);
-                    break;
-                default:
-                    break;
+        if (probe.format.tags != null) {
+            for (String tag : probe.format.tags.keySet()) {
+                switch (tag.toLowerCase()) {
+                    case ("title"):
+                        name = probe.format.tags.get(tag);
+                        break;
+                    case ("album"):
+                        album = probe.format.tags.get(tag);
+                        break;
+                    case ("artist"):
+                        artist = probe.format.tags.get(tag);
+                        break;
+                    case ("genre"):
+                        genre = probe.format.tags.get(tag);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
 
+    /**
+     * This method checks, is this file - audio file
+     *
+     * @param file path to file
+     * @return Is this file an audio
+     * @throws IOException It can be thrown, when path is incorrect
+     * @throws InterruptedException It can be thrown, when java can't wait for end of ffmpeg
+     */
     static public boolean isAudio(String file) throws IOException, InterruptedException {
         ProcessBuilder builder = new ProcessBuilder("ffmpeg", "-i", file);
         builder.redirectErrorStream(true);
@@ -73,18 +92,30 @@ public class Audio {
         return f;
     }
 
+    /**
+     * @return Path
+     */
     public String getPath() {
         return audioURL;
     }
 
+    /**
+     * @return Name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return Artist
+     */
     public String getArtist() {
         return artist;
     }
 
+    /**
+     * @return Path with slashes
+     */
     public String getSlashPath() {
         StringBuilder sb = new StringBuilder();
         for (char p : this.audioURL.toCharArray()) {
@@ -95,5 +126,12 @@ public class Audio {
             sb.append(p);
         }
         return sb.toString();
+    }
+
+    /**
+     * @return Duration
+     */
+    public long getDuration() {
+        return (long) (probe.format.duration * 1000);
     }
 }
